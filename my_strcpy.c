@@ -6,7 +6,7 @@
 */
 
 #include <stdlib.h>
-void my_strdup(char *dst, char *src)
+void my_strcpy(char *dst, char *src)
 {
     int i = 0;
 
