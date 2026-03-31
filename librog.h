@@ -37,6 +37,7 @@ char *my_strdup(char *c);
 char **split_string(char *s, char c);
 int my_strcat(char **buf, char *s1, char *s2);
 char *delete_newline(char *s);
+void my_strcpy(char *dst, char *src);
 typedef const char *restrict ccr_t;
 int my_printf(ccr_t format, ...);
 int print_sub1(ccr_t format, int i, va_list args);
