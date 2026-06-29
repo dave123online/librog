@@ -6,39 +6,30 @@
 */
 
 #include "librog.h"
-#include <stdio.h>
-int part_two(int i, char tab[15], int count, int nb)
-{
-    for (i--; i >= 0; i--) {
-        count += my_putchar(tab[i]);
-    }
-    if (nb == -2147483648) {
-        my_putstr("2147483648");
-        count = 10;
-    }
-    return count;
-}
 
 int my_put_nbr(int nb)
 {
     int i = 0;
     char tab[15];
     int count = 0;
+    long n = nb;
 
-    if (nb < 0) {
+    if (n < 0) {
         my_putchar('-');
-        nb = -nb;
+        n = -n;
         count++;
     }
-    if (nb == 0) {
+    if (n == 0) {
         my_putchar('0');
         count++;
     }
-    while (nb > 0) {
-        tab[i] = (nb % 10) + 48;
-        nb = nb / 10;
+    while (n > 0) {
+        tab[i] = (n % 10) + 48;
+        n = n / 10;
         i++;
     }
-    count = part_two(i, tab, count, nb);
+    for (i--; i >= 0; i--) {
+        count += my_putchar(tab[i]);
+    }
     return count;
 }

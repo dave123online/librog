@@ -12,7 +12,7 @@
     #include <unistd.h>
     #include <stdarg.h>
     #include <fcntl.h>
-int my_strlen(char *str);
+int my_strlen(char const *str);
 int my_putchar(char c);
 int my_put_nbr(int nb);
 int my_atoi(char *str);
@@ -25,8 +25,8 @@ long long my_put_ints(long long nb);
 int *handle_n_case(int count);
 int y_put_floats(double nb);
 int my_put_ptr(void *ptr);
-void my_put_sci_e(double nb);
-void maj_e_case(double nb);
+int my_put_sci_e(double nb);
+int maj_e_case(double nb);
 int my_putstr(char const *str);
 int skip_character(char *s, char u, char v, int i);
 char *my_revstr(char *str);
@@ -44,7 +44,6 @@ int print_sub1(ccr_t format, int i, va_list args);
 int print_sub2(ccr_t format, int i, va_list args);
 int print_sub3(ccr_t format, int i, va_list args);
 int print_sub4(ccr_t format, int i, va_list args);
-int print_sub4(ccr_t format, int i, va_list args);
 int my_perror(ccr_t format, ...);
 int file_exist(char *filepath);
 typedef struct split_string_variables {
@@ -54,5 +53,17 @@ typedef struct split_string_variables {
     int idx;
     char **spl;
 } spl_str_t;
+
+typedef struct my_sta_variables {
+    int i;
+    int j;
+    int k;
+    int count;
+    int len;
+    char **arr;
+} my_sta_t;
+
+int xstrlen(char *s, char c);
+char **my_str_to_str_array(char *str, char c);
 
 #endif /* LIBROG_H */

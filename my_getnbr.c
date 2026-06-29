@@ -5,7 +5,7 @@
 ** a function to return a int to the program
 */
 
-int my_getsign(char const *str)
+static int my_getsign(char const *str)
 {
     int x = 0;
     int i = 0;

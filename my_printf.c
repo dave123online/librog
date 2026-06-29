@@ -6,19 +6,16 @@
 */
 
 #include "librog.h"
-int fake_flag(ccr_t format, int i, int count, va_list args)
+int fake_flag(ccr_t format, int i, va_list args)
 {
+    char *flags = "dicseEfFpxXo%u";
     int x;
-    char *flags = "dicseEfFpxXo%";
 
     for (x = 0; flags[x] != '\0'; x++) {
-        if (flags[x] == format[i + 1]) {
-            count += print_sub1(format, i, args);
-        } else {
-            count += 0;
-        }
+        if (flags[x] == format[i + 1])
+            return print_sub1(format, i, args);
     }
-    return count;
+    return my_putchar(format[i]) + my_putchar(format[i + 1]);
 }
 
 int my_printf(ccr_t format, ...)
@@ -30,7 +27,7 @@ int my_printf(ccr_t format, ...)
     va_start(args, format);
     for (i = 0; format[i] != '\0'; i++) {
         if (format[i] == '%') {
-            count += fake_flag(format, i, count, args);
+            count += fake_flag(format, i, args);
             i++;
         } else {
             count += my_putchar(format[i]);

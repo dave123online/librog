@@ -6,7 +6,7 @@
 */
 
 #include "librog.h"
-#include "../include/xmalloc.h"
+#include <stdlib.h>
 static int count_words(char *s, char c)
 {
     int i = 0;
@@ -30,7 +30,7 @@ static int skip_separators(char *s, int i, char c)
 char **fill_last_idx(int j, int idx, char *buf, char **spl)
 {
     buf[j] = '\0';
-    spl[idx] = xstrdup(buf);
+    spl[idx] = my_strdup(buf);
     idx++;
     spl[idx] = NULL;
     spl[idx + 1] = NULL;
@@ -43,7 +43,7 @@ static void init_args(spl_str_t *args, char *s, char c)
     args->i = 0;
     args->j = 0;
     args->idx = 0;
-    args->spl = xmalloc(sizeof(char *) * (count_words(s, c) + 3));
+    args->spl = malloc(sizeof(char *) * (count_words(s, c) + 3));
 }
 
 static int fill_idx(spl_str_t *args, char *s, char c)
@@ -54,7 +54,7 @@ static int fill_idx(spl_str_t *args, char *s, char c)
             args->j = 0;
             return 84;
         }
-        args->spl[args->idx] = xstrdup(args->buf);
+        args->spl[args->idx] = my_strdup(args->buf);
         args->j = 0;
         args->i++;
         args->idx++;

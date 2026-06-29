@@ -11,13 +11,13 @@ int my_pow(int x, int y)
     int i = 1;
     int n = x;
 
+    if (y < 0)
+        return 0;
+    if (y == 0)
+        return 1;
     while (i < y) {
         x *= n;
         i++;
     }
-    if (y == 1)
-        x = x;
-    if (y == 0)
-        x = 1;
     return x;
 }

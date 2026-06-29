@@ -6,9 +6,11 @@
 */
 
 #include "librog.h"
-void zecond_case(double nb, int i, double n)
+
+static int zecond_case(double nb, int i, double n)
 {
     int j = (int) nb;
+    int count = 0;
 
     if (nb > 1) {
         for (i = 0; j > 10; i++) {
@@ -16,37 +18,47 @@ void zecond_case(double nb, int i, double n)
             j = (int) nb;
         }
         n = (n / my_pow(10, i));
-        my_put_floats(n);
+        count += my_put_floats(n);
         if (i < 10) {
-            my_putstr("E+0");
-            my_put_nbr(i);
+            count += my_putstr("E+0");
+            count += my_put_nbr(i);
         } else {
-            my_putstr("E+");
-            my_put_nbr(i);
+            count += my_putstr("E+");
+            count += my_put_nbr(i);
         }
     }
+    return count;
 }
 
-void maj_e_case(double nb)
+int maj_e_case(double nb)
 {
     int i = 0;
     int j = (int) nb;
     double n = nb;
+    int count = 0;
 
+    if (nb < 0) {
+        my_putchar('-');
+        nb = -nb;
+        n = -n;
+        j = (int) nb;
+        count++;
+    }
     if (nb < 1) {
         for (i = 0; j < 1; i++) {
             nb *= 10;
             j = (int) nb;
         }
         n = (n * my_pow(10, i));
-        my_put_floats(n);
+        count += my_put_floats(n);
         if (i < 10) {
-            my_putstr("E-0");
-            my_put_nbr(i);
+            count += my_putstr("E-0");
+            count += my_put_nbr(i);
         } else {
-            my_putstr("E-");
-            my_put_nbr(i);
+            count += my_putstr("E-");
+            count += my_put_nbr(i);
         }
     } else
-        zecond_case(nb, i, n);
+        count += zecond_case(nb, i, n);
+    return count;
 }

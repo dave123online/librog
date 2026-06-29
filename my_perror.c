@@ -5,46 +5,50 @@
 ** a function that handle some parts of printf
 */
 
-#include "my_perror.h"
-static void my_putchar(char c)
+#include "librog.h"
+
+static void write_stderr(char c)
 {
     write(2, &c, 1);
 }
 
-static int my_putstr(char const *str)
+static int putstr_stderr(char const *str)
 {
     int i = 0;
 
     while (str[i] != '\0') {
-        my_putchar(str[i]);
+        write_stderr(str[i]);
         i++;
     }
-    my_putchar('\0');
-    return 0;
+    return i;
 }
 
-static int my_put_nbr(int nb)
+static int putnbr_stderr(int nb)
 {
     int i = 0;
     char tab[12];
+    int count = 0;
+    long n = nb;
 
-    if (nb < 0) {
-        my_putchar('-');
-        nb = -nb;
+    if (n < 0) {
+        write_stderr('-');
+        n = -n;
+        count++;
     }
-    if (nb == 0) {
-        my_putchar('0');
-        return 0;
+    if (n == 0) {
+        write_stderr('0');
+        count++;
     }
-    while (nb > 0) {
-        tab[i] = (nb % 10) + 48;
-        nb = nb / 10;
+    while (n > 0) {
+        tab[i] = (n % 10) + 48;
+        n = n / 10;
         i++;
     }
     for (i--; i >= 0; i--) {
-        my_putchar(tab[i]);
+        write_stderr(tab[i]);
+        count++;
     }
-    return 0;
+    return count;
 }
 
 static void smnprintf(const char *format, int i, va_list args)
@@ -52,19 +56,19 @@ static void smnprintf(const char *format, int i, va_list args)
     switch (format[i + 1]) {
         case 'd':
         case 'i':
-            my_put_nbr(va_arg(args, int));
+            putnbr_stderr(va_arg(args, int));
             break;
         case 's':
-            my_putstr(va_arg(args, char *));
+            putstr_stderr(va_arg(args, char *));
             break;
         case 'c':
-            my_putchar(va_arg(args, int));
+            write_stderr(va_arg(args, int));
             break;
         case '%':
-            my_putchar('%');
+            write_stderr('%');
             break;
         default:
-            my_putchar(format[i + 1]);
+            write_stderr(format[i + 1]);
             break;
     }
 }
@@ -73,16 +77,18 @@ int my_perror(const char *format, ...)
 {
     va_list args;
     int i;
+    int count = 0;
 
     va_start(args, format);
-    for (i = 0; i < my_strlen((char *)format); i++) {
+    for (i = 0; format[i] != '\0'; i++) {
         if (format[i] == '%') {
             smnprintf(format, i, args);
             i++;
         } else {
-            my_putchar(format[i]);
+            write_stderr(format[i]);
+            count++;
         }
     }
     va_end(args);
-    return 0;
+    return count;
 }

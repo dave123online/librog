@@ -6,6 +6,17 @@
 */
 
 #include "librog.h"
+#include <stdlib.h>
+
+int xstrlen(char *s, char c)
+{
+    int i = 0;
+
+    while (s[i] != '\0' && s[i] != c && s[i] != '\t')
+        i++;
+    return i;
+}
+
 static void init_my_sta_vars(my_sta_t *v)
 {
     v->i = 0;
@@ -20,7 +31,7 @@ static void sub_mysta(my_sta_t *v, char *str, char c)
 {
     for (v->i = 0; v->i <= v->count; v->i++) {
         v->len = xstrlen(&str[v->k], c);
-        v->arr[v->i] = xmalloc(v->len + 1);
+        v->arr[v->i] = malloc(v->len + 1);
         for (v->j = 0; v->j < (int) v->len; v->j++) {
             v->arr[v->i][v->j] = str[v->k];
             v->k++;
@@ -30,9 +41,9 @@ static void sub_mysta(my_sta_t *v, char *str, char c)
     }
 }
 
-static char **my_str_to_str_array(char *str, char c)
+char **my_str_to_str_array(char *str, char c)
 {
-    my_sta_t *v = xmalloc(sizeof(my_sta_t));
+    my_sta_t *v = malloc(sizeof(my_sta_t));
 
     init_my_sta_vars(v);
     for (; str[v->i] != '\0'; v->i++) {
@@ -40,7 +51,7 @@ static char **my_str_to_str_array(char *str, char c)
             str[v->i - 1] != '\t' && str[v->i - 1] != c)
             v->count++;
     }
-    v->arr = xmalloc(sizeof(char *) * (v->count + 2));
+    v->arr = malloc(sizeof(char *) * (v->count + 2));
     sub_mysta(v, str, c);
     v->arr[v->i] = NULL;
     return v->arr;
